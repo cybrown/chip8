@@ -1,0 +1,22 @@
+{
+  "name": "chip8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && typings i",
+    "test": "npm-run-all clean tsc _mocha",
+    "tsc": "tsc",
+    "clean": "rimraf lib",
+    "_mocha": "mocha --recursive lib/test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "npm-run-all": "^1.5.1",
+    "rimraf": "^2.5.1",
+    "typescript": "^1.8.0",
+    "typings": "^0.6.5"
+  }
+}
