@@ -9,7 +9,7 @@ describe ('CPU Initialisation', () => {
         cpu = new CPU();
     });
 
-    it ('Valeur de départ des registres', () => {
+    it ('Valeur de départ des registres généraux', () => {
         assert.equal(cpu.V0, 0);
         assert.equal(cpu.V1, 0);
         assert.equal(cpu.V2, 0);
@@ -26,5 +26,9 @@ describe ('CPU Initialisation', () => {
         assert.equal(cpu.VD, 0);
         assert.equal(cpu.VE, 0);
         assert.equal(cpu.VF, 0);
+    });
+
+    it ('Valeur de départ du registre d\'adresse', () => {
+        assert.equal(cpu.I, 0);
     });
 });

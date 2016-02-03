@@ -1,6 +1,7 @@
 export class CPU {
 
     registers: number[] = new Array(16).fill(0);
+    I = 0;
 
     get V0() { return this.registers[0x0]; }
     get V1() { return this.registers[0x1]; }
