@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "typings i",
-    "test": "npm-run-all clean tsc _mocha",
+    "test": "npm-run-all clean tsc mocha",
     "tsc": "tsc",
     "tsc:watch": "tsc -w",
     "clean": "rimraf lib",
-    "_mocha": "mocha --recursive lib/test",
+    "mocha": "mocha --recursive lib/test",
     "mocha:watch": "mocha --recursive -w --reporter dot lib/test",
     "test:watch": "npm-run-all clean tsc -p tsc:watch mocha:watch"
   },
