@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import {CPU} from '../main/cpu';
 
-describe ('CPU Opcode SET (0x6XNN)', () => {
+describe ('CPU Opcode ADD (0x7XNN)', () => {
 
     let cpu: CPU;
 

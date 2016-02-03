@@ -39,7 +39,6 @@ export class CPU {
     }
 
     private add(register: number, value: number): void {
-        const sum = this.registers[register] + value;
-        this.registers[register] = sum & 0xFF;
+        this.registers[register] = byte0(this.registers[register] + value);
     }
 }
