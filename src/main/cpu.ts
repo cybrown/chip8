@@ -28,6 +28,9 @@ export class CPU {
 
     execute(opcode: number): CPU {
         switch (nibble3(opcode)) {
+            case 0x1:
+                this.I = opcode & 0x0FFF;
+                return;
             case 0x6:
                 this.registers[nibble2(opcode)] = byte0(opcode);
                 break;
