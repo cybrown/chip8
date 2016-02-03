@@ -21,8 +21,13 @@ export class CPU {
     get VF() { return this.registers[0xF]; }
 
     execute(opcode: number): CPU {
-        const registerIndex = ((opcode & 0x0F00) >> 8);
-        this.registers[registerIndex] = opcode & 0xFF;
+        const firstRegisterIndex = ((opcode & 0x0F00) >> 8);
+        const constValue = opcode & 0xFF;
+        switch (((opcode & 0xF000) >> 12)) {
+            case 0x6:
+                this.registers[firstRegisterIndex] = constValue;
+                break;
+        }
         return this;
     }
 }
