@@ -37,6 +37,9 @@ export class CPU {
             case 0x7:
                 this.add(nibble2(opcode), byte0(opcode));
                 break;
+            case 0xB:
+                this.I = (opcode & 0x0FFF) + this.V0;
+                return;
         }
         this.I += 2;
         return this;
