@@ -1,3 +1,9 @@
+import {
+    nibble2,
+    nibble3,
+    byte0
+} from './byte-util';
+
 export class CPU {
 
     registers: number[] = new Array(16).fill(0);
@@ -21,14 +27,12 @@ export class CPU {
     get VF() { return this.registers[0xF]; }
 
     execute(opcode: number): CPU {
-        const firstRegisterIndex = ((opcode & 0x0F00) >> 8);
-        const constValue = opcode & 0xFF;
-        switch (((opcode & 0xF000) >> 12)) {
+        switch (nibble3(opcode)) {
             case 0x6:
-                this.registers[firstRegisterIndex] = constValue;
+                this.registers[nibble2(opcode)] = byte0(opcode);
                 break;
             case 0x7:
-                this.add(firstRegisterIndex, constValue);
+                this.add(nibble2(opcode), byte0(opcode));
                 break;
         }
         return this;
