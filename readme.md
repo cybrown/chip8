@@ -2,9 +2,9 @@
 
 ## Installation
 
-Cloner ce repository, et installer les dépendances:
+Cloner ce repository, et installer les dépendances
 ```
-npm run install-all
+npm install
 ```
 
 Lancer les tests
