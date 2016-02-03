@@ -10,7 +10,7 @@
     "tsc:watch": "tsc -w",
     "clean": "rimraf lib",
     "_mocha": "mocha --recursive lib/test",
-    "mocha:watch": "mocha --recursive -w lib/test",
+    "mocha:watch": "mocha --recursive -w --reporter dot lib/test",
     "test:watch": "npm-run-all clean tsc -p tsc:watch mocha:watch"
   },
   "author": "",
