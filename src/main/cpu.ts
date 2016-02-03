@@ -27,7 +27,15 @@ export class CPU {
             case 0x6:
                 this.registers[firstRegisterIndex] = constValue;
                 break;
+            case 0x7:
+                this.add(firstRegisterIndex, constValue);
+                break;
         }
         return this;
+    }
+
+    private add(register: number, value: number): void {
+        const sum = this.registers[register] + value;
+        this.registers[register] = sum & 0xFF;
     }
 }
