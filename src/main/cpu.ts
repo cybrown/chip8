@@ -35,6 +35,7 @@ export class CPU {
                 this.add(nibble2(opcode), byte0(opcode));
                 break;
         }
+        this.I += 2;
         return this;
     }
 

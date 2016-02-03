@@ -31,4 +31,10 @@ describe ('CPU Opcode ADD (0x7XNN)', () => {
         cpu.execute(0x7700 + 123);
         assert.equal(cpu.V7, 67);
     });
+
+    it ('should increment the I register', () => {
+        cpu.I = 16;
+        cpu.execute(0x7AFF);
+        assert.equal(cpu.I, 18);
+    });
 });

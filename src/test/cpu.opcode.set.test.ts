@@ -18,4 +18,10 @@ describe ('CPU Opcode SET (0x6XNN)', () => {
         cpu.execute(0x6AFF);
         assert.equal(cpu.VA, 255);
     });
+
+    it ('should increment the I register', () => {
+        cpu.I = 14;
+        cpu.execute(0x6AFF);
+        assert.equal(cpu.I, 16);
+    });
 });
