@@ -11,3 +11,8 @@ Lancer les tests
 ```
 npm test
 ```
+
+Compiler et lancer les tests à chaque changement (ctrl + C pour arrêter)
+```
+npm run test:watch
+```

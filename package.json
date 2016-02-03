@@ -7,8 +7,11 @@
     "postinstall": "typings i",
     "test": "npm-run-all clean tsc _mocha",
     "tsc": "tsc",
+    "tsc:watch": "tsc -w",
     "clean": "rimraf lib",
-    "_mocha": "mocha --recursive lib/test"
+    "_mocha": "mocha --recursive lib/test",
+    "mocha:watch": "mocha --recursive -w lib/test",
+    "test:watch": "npm-run-all clean tsc -p tsc:watch mocha:watch"
   },
   "author": "",
   "license": "ISC",
