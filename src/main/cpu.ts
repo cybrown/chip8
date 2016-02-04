@@ -7,7 +7,17 @@ import {
 export class CPU {
 
     registers: number[] = new Array(16).fill(0);
+
+    /**
+     * Address register
+     * Used to address memory for sprites
+     */
     I = 0;
+
+    /**
+     * Program counter
+     * Current address in memory to execute
+     */
     PC = 0;
 
     get V0() { return this.registers[0x0]; }
@@ -29,24 +39,36 @@ export class CPU {
 
     execute(opcode: number): CPU {
         switch (nibble3(opcode)) {
-            case 0x1:
-                this.PC = opcode & 0x0FFF;
+            case 0x1:   // 0x1NNN => Jump to address NNN
+                this.jump(opcode & 0x0FFF);
                 return;
-            case 0x6:
-                this.registers[nibble2(opcode)] = byte0(opcode);
+            case 0x6:   // 0x6XNN => Load NN in VX
+                this.loadConstant(nibble2(opcode), byte0(opcode));
                 break;
-            case 0x7:
+            case 0x7:   // 0x7XNN => Add NN to VX
                 this.add(nibble2(opcode), byte0(opcode));
                 break;
-            case 0xB:
-                this.PC = (opcode & 0x0FFF) + this.V0;
+            case 0xB:   // 0xBNNN => Jump to adress NNN + V0
+                this.jumpV0(opcode & 0x0FFF);
                 return;
         }
         this.PC += 2;
         return this;
     }
 
+    private jump(address: number): void {
+        this.PC = address;
+    }
+
+    private loadConstant(register: number, value: number): void {
+        this.registers[register] = value;
+    }
+
     private add(register: number, value: number): void {
         this.registers[register] = byte0(this.registers[register] + value);
+    }
+
+    private jumpV0(baseAddress: number): void {
+        this.PC = baseAddress + this.V0;
     }
 }
