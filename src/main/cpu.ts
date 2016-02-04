@@ -40,10 +40,11 @@ export class CPU {
     get VF() { return this.registers[0xF]; }
 
     execute(opcode: number): CPU {
+        this.PC += 2;
         switch (nibble3(opcode)) {
             case 0x1:   // 0x1NNN => Jump to address NNN
                 this.jump(opcode & 0x0FFF);
-                return;
+                break;
             case 0x3:   // 0x3XNN => Skip if VX = NN
                 this.skipIfEqualConstant(nibble2(opcode), byte0(opcode));
                 break;
@@ -64,9 +65,8 @@ export class CPU {
                 break;
             case 0xB:   // 0xBNNN => Jump to adress NNN + V0
                 this.jumpV0(opcode & 0x0FFF);
-                return;
+                break;
         }
-        this.PC += 2;
         return this;
     }
 
