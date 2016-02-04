@@ -1,4 +1,5 @@
 # CHIP8
+[![Build Status](https://travis-ci.org/cybrown/chip8.svg?branch=master)](https://travis-ci.org/cybrown/chip8)
 
 ## Installation
 
