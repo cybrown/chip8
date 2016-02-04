@@ -32,7 +32,7 @@ describe ('CPU Initialisation', () => {
         assert.equal(cpu.I, 0);
     });
 
-    it ('Valeur de départ du registre PR', () => {
+    it ('Valeur de départ du registre PC', () => {
         assert.equal(cpu.PC, 0);
     });
 });
