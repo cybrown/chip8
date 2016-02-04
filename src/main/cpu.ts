@@ -1,4 +1,6 @@
 import {
+    nibble0,
+    nibble1,
     nibble2,
     nibble3,
     byte0
@@ -42,6 +44,18 @@ export class CPU {
             case 0x1:   // 0x1NNN => Jump to address NNN
                 this.jump(opcode & 0x0FFF);
                 return;
+            case 0x3:   // 0x3XNN => Skip if VX = NN
+                this.skipIfEqualConstant(nibble2(opcode), byte0(opcode));
+                break;
+            case 0x4:   // 0x4XNN => Skip if VX != NN
+                this.skipIfNotEqualConstant(nibble2(opcode), byte0(opcode));
+                break;
+            case 0x5:   // 0x5XY0 => Skip if VX = VY
+                if (nibble0(opcode) !== 0) {
+                    this.wrongOpcode(opcode);
+                }
+                this.skipIfEqualRegister(nibble2(opcode), nibble1(opcode));
+                break;
             case 0x6:   // 0x6XNN => Load NN in VX
                 this.loadConstant(nibble2(opcode), byte0(opcode));
                 break;
@@ -54,6 +68,28 @@ export class CPU {
         }
         this.PC += 2;
         return this;
+    }
+
+    private wrongOpcode(opcode: number): void {
+        throw new Error('Wrong opcode: ' + opcode.toString(16));
+    }
+
+    private skipIfEqualConstant(register: number, value: number): void {
+        if (this.registers[register] === value) {
+            this.PC += 2;
+        }
+    }
+
+    private skipIfNotEqualConstant(register: number, value: number): void {
+        if (this.registers[register] !== value) {
+            this.PC += 2;
+        }
+    }
+
+    private skipIfEqualRegister(registerX: number, registerY: number): void {
+        if (this.registers[registerX] === this.registers[registerY]) {
+            this.PC += 2;
+        }
     }
 
     private jump(address: number): void {
