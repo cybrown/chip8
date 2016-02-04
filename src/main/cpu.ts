@@ -8,6 +8,7 @@ export class CPU {
 
     registers: number[] = new Array(16).fill(0);
     I = 0;
+    PC = 0;
 
     get V0() { return this.registers[0x0]; }
     get V1() { return this.registers[0x1]; }
@@ -29,7 +30,7 @@ export class CPU {
     execute(opcode: number): CPU {
         switch (nibble3(opcode)) {
             case 0x1:
-                this.I = opcode & 0x0FFF;
+                this.PC = opcode & 0x0FFF;
                 return;
             case 0x6:
                 this.registers[nibble2(opcode)] = byte0(opcode);
@@ -38,10 +39,10 @@ export class CPU {
                 this.add(nibble2(opcode), byte0(opcode));
                 break;
             case 0xB:
-                this.I = (opcode & 0x0FFF) + this.V0;
+                this.PC = (opcode & 0x0FFF) + this.V0;
                 return;
         }
-        this.I += 2;
+        this.PC += 2;
         return this;
     }
 

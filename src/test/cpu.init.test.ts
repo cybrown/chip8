@@ -31,4 +31,8 @@ describe ('CPU Initialisation', () => {
     it ('Valeur de départ du registre d\'adresse', () => {
         assert.equal(cpu.I, 0);
     });
+
+    it ('Valeur de départ du registre PR', () => {
+        assert.equal(cpu.PC, 0);
+    });
 });

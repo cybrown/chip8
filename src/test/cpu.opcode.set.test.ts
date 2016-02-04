@@ -19,9 +19,9 @@ describe ('CPU Opcode SET (0x6XNN)', () => {
         assert.equal(cpu.VA, 255);
     });
 
-    it ('should increment the I register', () => {
-        cpu.I = 14;
+    it ('should increment the PC register', () => {
+        cpu.PC = 14;
         cpu.execute(0x6AFF);
-        assert.equal(cpu.I, 16);
+        assert.equal(cpu.PC, 16);
     });
 });

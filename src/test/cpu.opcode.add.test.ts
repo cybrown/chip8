@@ -32,9 +32,9 @@ describe ('CPU Opcode ADD (0x7XNN)', () => {
         assert.equal(cpu.V7, 67);
     });
 
-    it ('should increment the I register', () => {
-        cpu.I = 16;
+    it ('should increment the PC register', () => {
+        cpu.PC = 16;
         cpu.execute(0x7AFF);
-        assert.equal(cpu.I, 18);
+        assert.equal(cpu.PC, 18);
     });
 });

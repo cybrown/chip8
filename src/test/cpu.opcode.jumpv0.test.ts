@@ -12,6 +12,6 @@ describe ('CPU Opcode JUMPV0 (0xBNNN)', () => {
     it ('should jump to 0x432 with V0 = 0x42', () => {
         cpu.registers[0] = 0x42;
         cpu.execute(0xB432);
-        assert.equal(cpu.I, 0x474);
+        assert.equal(cpu.PC, 0x474);
     });
 });
