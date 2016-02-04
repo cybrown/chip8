@@ -63,6 +63,12 @@ export class CPU {
             case 0x7:   // 0x7XNN => Add NN to VX
                 this.add(nibble2(opcode), byte0(opcode));
                 break;
+            case 0x9:   // 0x9XY0 => Skip if VX != VY
+                if (nibble0(opcode) !== 0) {
+                    this.wrongOpcode(opcode);
+                }
+                this.skipIfNotEqualRegister(nibble2(opcode), nibble1(opcode));
+                break;
             case 0xB:   // 0xBNNN => Jump to adress NNN + V0
                 this.jumpV0(opcode & 0x0FFF);
                 break;
@@ -88,6 +94,12 @@ export class CPU {
 
     private skipIfEqualRegister(registerX: number, registerY: number): void {
         if (this.registers[registerX] === this.registers[registerY]) {
+            this.PC += 2;
+        }
+    }
+
+    private skipIfNotEqualRegister(registerX: number, registerY: number): void {
+        if (this.registers[registerX] !== this.registers[registerY]) {
             this.PC += 2;
         }
     }
