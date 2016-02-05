@@ -6,7 +6,7 @@ describe ('CPU Opcode LD (0x6XNN)', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU();
+        cpu = new CPU(null);
     });
 
     it ('should load the value 34 in the V1 register', () => {

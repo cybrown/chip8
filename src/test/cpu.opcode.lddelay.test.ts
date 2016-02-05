@@ -6,7 +6,7 @@ describe ('CPU Opcode LDDELAY (0xFX15)', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU();
+        cpu = new CPU(null);
     });
 
     it ('should load V2 to delay timer', () => {

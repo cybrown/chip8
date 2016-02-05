@@ -6,6 +6,10 @@ import {
     byte0
 } from './byte-util';
 
+export interface CpuRandomGenerator {
+    random(): number;
+}
+
 export class CPU {
 
     registers: number[] = new Array(16).fill(0);
@@ -48,6 +52,10 @@ export class CPU {
     get VD() { return this.registers[0xD]; }
     get VE() { return this.registers[0xE]; }
     get VF() { return this.registers[0xF]; }
+
+    constructor (private random: CpuRandomGenerator) {
+
+    }
 
     execute(opcode: number): CPU {
         this.PC += 2;

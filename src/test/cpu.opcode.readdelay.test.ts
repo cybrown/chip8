@@ -6,7 +6,7 @@ describe ('CPU Opcode READDELAY (0xFX07)', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU();
+        cpu = new CPU(null);
     });
 
     it ('should load V0 to delay timer', () => {
