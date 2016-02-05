@@ -6,7 +6,7 @@ import {
     byte0
 } from './byte-util';
 
-export interface CpuRandomGenerator {
+export interface ICpuRandomGenerator {
     random(): number;
 }
 
@@ -53,7 +53,7 @@ export class CPU {
     get VE() { return this.registers[0xE]; }
     get VF() { return this.registers[0xF]; }
 
-    constructor (private random: CpuRandomGenerator) {
+    constructor (private random: ICpuRandomGenerator) {
 
     }
 
@@ -92,6 +92,9 @@ export class CPU {
                 break;
             case 0xB:   // 0xBNNN => Jump to adress NNN + V0
                 this.jumpV0(opcode & 0x0FFF);
+                break;
+            case 0xC:   // 0xCXNN => Load random and NN to VX
+                this.rand(nibble2(opcode), byte0(opcode));
                 break;
             case 0xF:   // 0xFXOO => Do operation OO
                 const operation = byte0(opcode);
@@ -178,5 +181,9 @@ export class CPU {
 
     private getDelayTimer(register: number): void {
         this.registers[register] = this.DT;
+    }
+
+    private rand(register: number, mask: number): void {
+        this.registers[register] = this.random.random() & mask;
     }
 }
