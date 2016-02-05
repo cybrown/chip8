@@ -88,14 +88,17 @@ export class CPU {
             case 0xF:   // 0xFXOO => Do operation OO
                 const operation = byte0(opcode);
                 switch (operation) {
-                    case 0x1E:  // 0xFX1E => Add VX to I
-                        this.addRegisterToI(nibble2(opcode));
+                    case 0x07:  // 0xFX07 => Read DT to VX
+                        this.getDelayTimer(nibble2(opcode));
                         break;
                     case 0x15:  // 0xFX15 => Load VX to DT
                         this.setDelayTimer(nibble2(opcode));
                         break;
                     case 0x18:  // 0xFX18 => Load VX to ST
                         this.setSoundTimer(nibble2(opcode));
+                        break;
+                    case 0x1E:  // 0xFX1E => Add VX to I
+                        this.addRegisterToI(nibble2(opcode));
                         break;
                 }
                 break;
@@ -163,5 +166,9 @@ export class CPU {
 
     private setDelayTimer(register: number): void {
         this.DT = this.registers[register];
+    }
+
+    private getDelayTimer(register: number): void {
+        this.registers[register] = this.DT;
     }
 }
