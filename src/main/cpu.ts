@@ -69,6 +69,9 @@ export class CPU {
                 }
                 this.skipIfNotEqualRegister(nibble2(opcode), nibble1(opcode));
                 break;
+            case 0xA:   // 0xANNN => Load NNN in I
+                this.loadI(opcode & 0x0FFF);
+                break;
             case 0xB:   // 0xBNNN => Jump to adress NNN + V0
                 this.jumpV0(opcode & 0x0FFF);
                 break;
@@ -110,6 +113,10 @@ export class CPU {
 
     private loadConstant(register: number, value: number): void {
         this.registers[register] = value;
+    }
+
+    private loadI(value: number): void {
+        this.I = value;
     }
 
     private add(register: number, value: number): void {
