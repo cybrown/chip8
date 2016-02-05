@@ -1,4 +1,6 @@
 # CHIP8
+
+[![Join the chat at https://gitter.im/cybrown/chip8](https://badges.gitter.im/cybrown/chip8.svg)](https://gitter.im/cybrown/chip8?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/cybrown/chip8.svg?branch=master)](https://travis-ci.org/cybrown/chip8)
 
 ## Installation
