@@ -27,6 +27,11 @@ export class CPU {
      */
     ST = 0;
 
+    /**
+     * Delay timer
+     */
+    DT = 0;
+
     get V0() { return this.registers[0x0]; }
     get V1() { return this.registers[0x1]; }
     get V2() { return this.registers[0x2]; }
@@ -86,7 +91,10 @@ export class CPU {
                     case 0x1E:  // 0xFX1E => Add VX to I
                         this.addRegisterToI(nibble2(opcode));
                         break;
-                    case 0x18:  // 0xFX18 => Load VS to ST
+                    case 0x15:  // 0xFX15 => Load VX to DT
+                        this.setDelayTimer(nibble2(opcode));
+                        break;
+                    case 0x18:  // 0xFX18 => Load VX to ST
                         this.setSoundTimer(nibble2(opcode));
                         break;
                 }
@@ -151,5 +159,9 @@ export class CPU {
 
     private setSoundTimer(register: number): void {
         this.ST = this.registers[register];
+    }
+
+    private setDelayTimer(register: number): void {
+        this.DT = this.registers[register];
     }
 }
