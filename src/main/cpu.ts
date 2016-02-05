@@ -75,6 +75,14 @@ export class CPU {
             case 0xB:   // 0xBNNN => Jump to adress NNN + V0
                 this.jumpV0(opcode & 0x0FFF);
                 break;
+            case 0xF:   // 0xFXOO => Do operation OO
+                const operation = byte0(opcode);
+                switch (operation) {
+                    case 0x1E:
+                        this.addRegisterToI(nibble2(opcode));
+                        break;
+                }
+                break;
         }
         return this;
     }
@@ -125,5 +133,9 @@ export class CPU {
 
     private jumpV0(baseAddress: number): void {
         this.PC = baseAddress + this.V0;
+    }
+
+    private addRegisterToI(register: number): void {
+        this.I = (this.I + this.registers[register]) & 0xFFF;
     }
 }
