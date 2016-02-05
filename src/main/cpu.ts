@@ -136,6 +136,8 @@ export class CPU {
     }
 
     private addRegisterToI(register: number): void {
-        this.I = (this.I + this.registers[register]) & 0xFFF;
+        const sum = this.I + this.registers[register];
+        this.registers[0xF] = sum & ~0xFFF ? 1 : 0;
+        this.I = sum & 0xFFF;
     }
 }
