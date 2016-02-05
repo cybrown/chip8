@@ -22,6 +22,11 @@ export class CPU {
      */
     PC = 0;
 
+    /**
+     * Sound timer
+     */
+    ST = 0;
+
     get V0() { return this.registers[0x0]; }
     get V1() { return this.registers[0x1]; }
     get V2() { return this.registers[0x2]; }
@@ -78,8 +83,11 @@ export class CPU {
             case 0xF:   // 0xFXOO => Do operation OO
                 const operation = byte0(opcode);
                 switch (operation) {
-                    case 0x1E:
+                    case 0x1E:  // 0xFX1E => Add VX to I
                         this.addRegisterToI(nibble2(opcode));
+                        break;
+                    case 0x18:  // 0xFX18 => Load VS to ST
+                        this.setSoundTimer(nibble2(opcode));
                         break;
                 }
                 break;
@@ -139,5 +147,9 @@ export class CPU {
         const sum = this.I + this.registers[register];
         this.registers[0xF] = sum & ~0xFFF ? 1 : 0;
         this.I = sum & 0xFFF;
+    }
+
+    private setSoundTimer(register: number): void {
+        this.ST = this.registers[register];
     }
 }

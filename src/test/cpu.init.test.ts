@@ -35,4 +35,8 @@ describe ('CPU Initialisation', () => {
     it ('Valeur de départ du registre PC', () => {
         assert.equal(cpu.PC, 0);
     });
+
+    it ('Valeur de départ du registre ST (sound timer)', () => {
+        assert.equal(cpu.ST, 0);
+    });
 });
