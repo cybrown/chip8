@@ -2,6 +2,7 @@ import {CPU, ICpuRandomGenerator} from './cpu';
 import {Stack} from './stack';
 import {Memory} from './memory';
 import * as fs from 'fs';
+import {CliScreen} from './cli-screen';
 
 function range(min: number, max: number): number[] {
     const result: number[] = [];
@@ -27,18 +28,32 @@ class CustomCPU extends CPU {
     }
 }
 
+const buffer = new Uint8Array(0xFFF);
+const memory = new Memory(buffer);
+
 function cpuFactory(buffer: Uint8Array): CPU {
-    const memory = new Memory(buffer);
     const stack = new Stack();
     return new CustomCPU(stack, memory, null);
 }
 
+var ctx = require('axel');
+
+const cliScreen = new CliScreen({
+    point(x, y) {
+        ctx.point(x + 1, y + 1);
+    }
+});
+
 fs.readFile(process.argv[2], (err, data) => {
     if (err) throw err;
-    const buffer = new Uint8Array(0xFFF);
     for (let i = 0; i < data.length || i <= 0xFFF; i++) {
         buffer[i] = data[i];
     }
     const cpu = cpuFactory(buffer);
-    cpu.run(1000);
+    setInterval(() => {
+        cpu.run(1);
+        ctx.bg(0, 255, 0);
+        cliScreen.drawScreen(memory.readScreenZone());
+        ctx.bg(0, 0, 0);
+    }, 100);
 });
