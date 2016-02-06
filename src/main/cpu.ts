@@ -70,6 +70,16 @@ export class CPU {
     execute(opcode: number): CPU {
         this.PC += 2;
         switch (nibble3(opcode)) {
+            case 0x0:
+                switch (byte0(opcode)) {
+                    case 0xE0:
+                        this.clearScreen();
+                        break;
+                    default:
+                        this.invalidOpcode(opcode);
+                        break;
+                }
+                break
             case 0x1:   // 0x1NNN => Jump to address NNN
                 this.jump(opcode & 0x0FFF);
                 break;
@@ -134,6 +144,12 @@ export class CPU {
                 break;
         }
         return this;
+    }
+
+    private clearScreen(): void {
+        for (let i = 0xF00; i <= 0xFFF; i++) {
+            this.memory.writeByte(i, 0);
+        }
     }
 
     private readFromMemory(maxRegister: number): void {
