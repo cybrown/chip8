@@ -61,6 +61,12 @@ export class CPU {
 
     }
 
+    run(cycles: number): void {
+        for (let i = 0; i < cycles; i++) {
+            this.execute(this.memory.readOpcode(this.PC));
+        }
+    }
+
     execute(opcode: number): CPU {
         this.PC += 2;
         switch (nibble3(opcode)) {
@@ -75,7 +81,7 @@ export class CPU {
                 break;
             case 0x5:   // 0x5XY0 => Skip if VX = VY
                 if (nibble0(opcode) !== 0) {
-                    this.wrongOpcode(opcode);
+                    this.invalidOpcode(opcode);
                 }
                 this.skipIfEqualRegister(nibble2(opcode), nibble1(opcode));
                 break;
@@ -87,7 +93,7 @@ export class CPU {
                 break;
             case 0x9:   // 0x9XY0 => Skip if VX != VY
                 if (nibble0(opcode) !== 0) {
-                    this.wrongOpcode(opcode);
+                    this.invalidOpcode(opcode);
                 }
                 this.skipIfNotEqualRegister(nibble2(opcode), nibble1(opcode));
                 break;
@@ -117,12 +123,15 @@ export class CPU {
                         break;
                 }
                 break;
+            default:
+                this.invalidOpcode(opcode);
+                break;
         }
         return this;
     }
 
-    private wrongOpcode(opcode: number): void {
-        throw new Error('Wrong opcode: ' + opcode.toString(16));
+    private invalidOpcode(opcode: number): void {
+        throw new Error('Invalid opcode: ' + opcode.toString(16));
     }
 
     private skipIfEqualConstant(register: number, value: number): void {
