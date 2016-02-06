@@ -72,8 +72,11 @@ export class CPU {
         switch (nibble3(opcode)) {
             case 0x0:
                 switch (byte0(opcode)) {
-                    case 0xE0:
+                    case 0xE0:  // 0x00E0 => Clear the screen
                         this.clearScreen();
+                        break;
+                    case 0xEE:  // 0x00EE => Return from subroutine
+                        this.ret();
                         break;
                     default:
                         this.invalidOpcode(opcode);
@@ -82,6 +85,9 @@ export class CPU {
                 break
             case 0x1:   // 0x1NNN => Jump to address NNN
                 this.jump(opcode & 0x0FFF);
+                break;
+            case 0x2:   // 0x2NNN => Call subroutine at NNN
+                this.call(opcode & 0x0FFF);
                 break;
             case 0x3:   // 0x3XNN => Skip if VX = NN
                 this.skipIfEqualConstant(nibble2(opcode), byte0(opcode));
@@ -144,6 +150,15 @@ export class CPU {
                 break;
         }
         return this;
+    }
+
+    private ret(): void {
+        this.PC = this.stack.pop();
+    }
+
+    private call(address: number): void {
+        this.stack.push(this.PC);
+        this.PC = address;
     }
 
     private clearScreen(): void {
