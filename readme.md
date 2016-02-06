@@ -40,6 +40,12 @@ npm run test:watch
 * ```npm run test:watch``` Compiler et lancer les tests unitaires, en surveillant continuellement les fichiers
 * ```npm run tsc``` Compiler les fichiers TypeScript en JavaScript, de /src vers /lib
 
+## Utilisation
+
+Lancer une rom en ligne de commande:
+
+```node cli.js sample-roms/sample1.c8```
+
 ## Ressources
 
 ### CHIP 8
