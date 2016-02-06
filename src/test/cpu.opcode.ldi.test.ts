@@ -6,7 +6,7 @@ describe ('CPU Opcode LDI (0xANNN)', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU(null);
+        cpu = new CPU(null, null, null);
     });
 
     it ('should load the value 0x3BC in the I register', () => {

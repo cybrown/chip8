@@ -6,7 +6,7 @@ describe ('CPU Opcode JUMP (0x1NNN)', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU(null);
+        cpu = new CPU(null, null, null);
     });
 
     it ('should jump to 0x432', () => {

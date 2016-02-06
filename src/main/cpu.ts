@@ -5,6 +5,8 @@ import {
     nibble3,
     byte0
 } from './byte-util';
+import {Stack} from './stack';
+import {Memory} from './memory';
 
 export interface ICpuRandomGenerator {
     random(): number;
@@ -53,7 +55,9 @@ export class CPU {
     get VE() { return this.registers[0xE]; }
     get VF() { return this.registers[0xF]; }
 
-    constructor (private random: ICpuRandomGenerator) {
+    constructor (private stack: Stack,
+                 private memory: Memory,
+                 private random: ICpuRandomGenerator) {
 
     }
 

@@ -10,7 +10,7 @@ describe ('CPU Opcode RAND (0xCXNN)', () => {
         random = {
             random: () => 1
         };
-        cpu = new CPU(random);
+        cpu = new CPU(null, null, random);
     });
 
     it ('should set V5 with a random value', () => {

@@ -6,7 +6,7 @@ describe ('CPU Opcode ADDI (0xFX1E)', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU(null);
+        cpu = new CPU(null, null, null);
     });
 
     it ('should add V5 to I when I = 0 and V5 = 0xFE', () => {

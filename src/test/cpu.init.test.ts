@@ -6,7 +6,7 @@ describe ('CPU Initialisation', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU(null);
+        cpu = new CPU(null, null, null);
     });
 
     it ('Valeur de départ des registres généraux', () => {

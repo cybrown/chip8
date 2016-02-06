@@ -6,7 +6,7 @@ describe ('CPU Opcode SE, SNE (0x3XNN, 0x4XNN, 0x5XYN)', () => {
     let cpu: CPU;
 
     beforeEach(() => {
-        cpu = new CPU(null);
+        cpu = new CPU(null, null, null);
     });
 
     describe ('Opcode 0x3XNN', () => {
