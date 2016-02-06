@@ -21,5 +21,8 @@
     "rimraf": "^2.5.1",
     "typescript": "^1.8.0",
     "typings": "^0.6.5"
+  },
+  "dependencies": {
+    "axel": "0.0.3"
   }
 }
