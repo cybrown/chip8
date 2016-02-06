@@ -124,6 +124,9 @@ export class CPU {
                     case 0x55:  // 0xFX55 => Write V0 to VX from I
                         this.writeToMemory(nibble2(opcode));
                         break;
+                    case 0x65:  // 0xFX65 => Read from memory at I to V0 to VX
+                        this.readFromMemory(nibble2(opcode));
+                        break;
                 }
                 break;
             default:
@@ -131,6 +134,12 @@ export class CPU {
                 break;
         }
         return this;
+    }
+
+    private readFromMemory(maxRegister: number): void {
+        for (let i = 0; i <= maxRegister; i++) {
+            this.registers[i] = this.memory.readByte(this.I + i);
+        }
     }
 
     private writeToMemory(maxRegister: number): void {
