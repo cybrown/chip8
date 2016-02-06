@@ -121,6 +121,9 @@ export class CPU {
                     case 0x1E:  // 0xFX1E => Add VX to I
                         this.addRegisterToI(nibble2(opcode));
                         break;
+                    case 0x55:  // 0xFX55 => Write V0 to VX from I
+                        this.writeToMemory(nibble2(opcode));
+                        break;
                 }
                 break;
             default:
@@ -128,6 +131,12 @@ export class CPU {
                 break;
         }
         return this;
+    }
+
+    private writeToMemory(maxRegister: number): void {
+        for (let i = 0; i <= maxRegister; i++) {
+            this.memory.writeByte(this.I + i, this.registers[i]);
+        }
     }
 
     private invalidOpcode(opcode: number): void {
