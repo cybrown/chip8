@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import {CPU} from '../main/cpu';
 import {Memory} from '../main/memory';
 
-describe ('CPU Opcode MEMW (0x3XNN)', () => {
+describe ('CPU Opcode MEMW (0xFX55)', () => {
 
     let cpu: CPU;
     let memory: Memory;
