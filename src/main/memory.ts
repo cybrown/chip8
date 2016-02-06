@@ -22,6 +22,10 @@ export class Memory {
         return this.buffer[address] << 8 | this.buffer[address + 1];
     }
 
+    readScreenZone(): Uint8Array {
+        return this.buffer.slice(0xF00, 0x1000);
+    }
+
     private checkAddress(address: number, maxAddress?: number): void {
         maxAddress = maxAddress || 0xFFF;
         if (address < 0 || address > maxAddress) {

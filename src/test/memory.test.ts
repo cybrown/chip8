@@ -87,4 +87,18 @@ describe ('Memory', () => {
             assert.throws(() => memory.readOpcode(-1));
         });
     });
+
+    describe ('Read screen memory zone', () => {
+
+        it ('should return the correct buffer', () => {
+            memory.writeByte(0xF00, 0b01010101);
+            memory.writeByte(0xFFF, 0b11000011);
+
+            const screenMemory = memory.readScreenZone();
+
+            assert.equal(screenMemory.length, 256);
+            assert.equal(screenMemory[0], 0b01010101);
+            assert.equal(screenMemory[screenMemory.length - 1], 0b11000011);
+        });
+    });
 });
