@@ -201,8 +201,10 @@ export class CPU {
         }
     }
 
-    private draw(x: number, y: number, lines: number): void {
+    private draw(registerX: number, registerY: number, lines: number): void {
         this.registers[0xF] = 0;
+        const x = this.registers[registerX];
+        const y = this.registers[registerY];
         for (let i = 0; i < lines; i++) {
             const byteToDraw = (x / 8)|0 + (y + i) * 8;
             const byteOffset = x % 8;
