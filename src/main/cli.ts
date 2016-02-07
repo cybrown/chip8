@@ -33,7 +33,11 @@ const memory = new Memory(buffer);
 
 function cpuFactory(buffer: Uint8Array): CPU {
     const stack = new Stack();
-    return new CustomCPU(stack, memory, null);
+    return new CustomCPU(stack, memory, {
+        random() {
+            return (Math.random() + 255)|0;
+        }
+    });
 }
 
 var ctx = require('axel');
