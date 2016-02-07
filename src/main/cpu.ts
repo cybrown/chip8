@@ -58,7 +58,10 @@ export class CPU {
     constructor (private stack: Stack,
                  private memory: Memory,
                  private random: ICpuRandomGenerator) {
-
+        setInterval(() => {
+            if (this.DT) this.DT--;
+            if (this.ST) this.ST--;
+        }, 1000 / 60);
     }
 
     run(cycles: number): void {
