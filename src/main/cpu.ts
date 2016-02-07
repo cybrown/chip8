@@ -107,6 +107,9 @@ export class CPU {
             case 0x7:   // 0x7XNN => Add NN to VX
                 this.add(nibble2(opcode), byte0(opcode));
                 break;
+            case 0x8:
+                this.operation(nibble0(opcode), nibble2(opcode), nibble1(opcode));
+                break;
             case 0x9:   // 0x9XY0 => Skip if VX != VY
                 if (nibble0(opcode) !== 0) {
                     this.invalidOpcode(opcode);
@@ -150,6 +153,49 @@ export class CPU {
                 break;
         }
         return this;
+    }
+
+    private operation(operationType: number, registerX: number, registerY: number): void {
+        switch (operationType) {
+            case 0x0:   // Set VX = VY
+                this.registers[registerX] = this.registers[registerY];
+                break;
+            case 0x1:   // Set VX = VX | VY
+                this.registers[registerX] |= this.registers[registerY];
+                break;
+            case 0x2:   // Set VX = VX & VY
+                this.registers[registerX] &= this.registers[registerY];
+                break;
+            case 0x3:   // Set VX = VX ^ VY
+                this.registers[registerX] ^= this.registers[registerY];
+                break;
+            case 0x4:   // Set VX = VX + VY, set carry to VF
+                const sum = this.registers[registerX] + this.registers[registerY];
+                this.registers[0xF] = sum & ~0xFF ? 1 : 0;
+                this.registers[registerX] = sum & 0xFF;
+                break;
+            case 0x5:   // Set VX = VX + VY, set borrow to VF
+                const sub = this.registers[registerX] - this.registers[registerY];
+                this.registers[0xF] = sub < 0 ? 1 : 0;
+                this.registers[registerX] = sub & 0xFF;
+                break;
+            case 0x6:   // Set VF = leastSignificantBit(VX), VX = VX >> 1
+                this.registers[0xF] = this.registers[registerX] & 1;
+                this.registers[registerX] = this.registers[registerX] >> 1;
+                break;
+            case 0x7:   // Set VX = VX + VY, set no borrow to VF
+                const invsub = this.registers[registerY] - this.registers[registerX];
+                this.registers[0xF] = invsub < 0 ? 0 : 1;
+                this.registers[registerX] = invsub & 0xFF;
+                break;
+            case 0xE:   // Set VF = mostSignificantBit(VX), VX = VX << 1
+                this.registers[0xF] = this.registers[registerX] & 0b10000000 ? 1 : 0;
+                this.registers[registerX] = (this.registers[registerX] << 1) & 0xFF;
+                break;
+            default:
+                this.invalidOpcode(0x8000 | (registerX << 8) | (registerY << 4) | operationType);
+                break;
+        }
     }
 
     private ret(): void {
