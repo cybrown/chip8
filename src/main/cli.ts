@@ -19,10 +19,10 @@ class CustomCPU extends CPU {
     }
 
     execute(opcode: number): this {
-        console.log(`PC: ${this.PC.toString(16)}, opcode: 0x${opcode.toString(16)}, ST: 0x${this.ST.toString(16)}, DT: 0x${this.DT.toString(16)}, I: 0x${this.I.toString(16)}`);
-        console.log(range(0, 8).map(i => `V${i}: 0x${this.registers[i].toString(16)}`).join(', '));
-        console.log(range(8, 16).map(i => `V${i}: 0x${this.registers[i].toString(16)}`).join(', '));
-        console.log('');
+        //console.log(`PC: ${this.PC.toString(16)}, opcode: 0x${opcode.toString(16)}, ST: 0x${this.ST.toString(16)}, DT: 0x${this.DT.toString(16)}, I: 0x${this.I.toString(16)}`);
+        //console.log(range(0, 8).map(i => `V${i}: 0x${this.registers[i].toString(16)}`).join(', '));
+        //console.log(range(8, 16).map(i => `V${i}: 0x${this.registers[i].toString(16)}`).join(', '));
+        //console.log('');
         super.execute(opcode);
         return this;
     }
@@ -47,9 +47,10 @@ const cliScreen = new CliScreen({
 fs.readFile(process.argv[2], (err, data) => {
     if (err) throw err;
     for (let i = 0; i < data.length || i <= 0xFFF; i++) {
-        buffer[i] = data[i];
+        buffer[i + 0x200] = data[i];
     }
     const cpu = cpuFactory(buffer);
+    cpu.PC = 0x200;
     setInterval(() => {
         cpu.run(1);
         ctx.bg(0, 255, 0);
