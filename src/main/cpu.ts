@@ -125,6 +125,9 @@ export class CPU {
             case 0xC:   // 0xCXNN => Load random and NN to VX
                 this.rand(nibble2(opcode), byte0(opcode));
                 break;
+            case 0xD:   // 0xDXYN => Draw a sprite at X, Y
+                this.draw(nibble2(opcode), nibble1(opcode), nibble0(opcode));
+                break;
             case 0xF:   // 0xFXOO => Do operation OO
                 const operation = byte0(opcode);
                 switch (operation) {
@@ -195,6 +198,25 @@ export class CPU {
             default:
                 this.invalidOpcode(0x8000 | (registerX << 8) | (registerY << 4) | operationType);
                 break;
+        }
+    }
+
+    private draw(x: number, y: number, lines: number): void {
+        this.registers[0xF] = 0;
+        for (let i = 0; i < lines; i++) {
+            const byteToDraw = (x / 8)|0 + (y + i) * 8;
+            const byteOffset = x % 8;
+            const firstByteToDraw = this.memory.readByte(this.I + i) >> byteOffset;
+            const secondByteToDraw = (this.memory.readByte(this.I + i) << (8 - byteOffset)) & 0xFF;
+            const firstByteToDrawAddress = 0xF00 + byteToDraw;
+            const secondByteToDrawAddress = 0xF00 + byteToDraw + 1;
+            const originalFirstByte = this.memory.readByte(firstByteToDrawAddress);
+            const originalSecondByte = this.memory.readByte(secondByteToDrawAddress);
+            if ((originalFirstByte & firstByteToDraw) || (originalSecondByte & secondByteToDraw)) {
+                this.registers[0xF] = 1;
+            }
+            this.memory.writeByte(firstByteToDrawAddress, originalFirstByte ^ firstByteToDraw);
+            this.memory.writeByte(secondByteToDrawAddress, originalSecondByte ^ secondByteToDraw);
         }
     }
 
