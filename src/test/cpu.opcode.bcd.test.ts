@@ -25,7 +25,7 @@ describe ('CPU Opcode BCD (0xFX33)', () => {
         assert.equal(buffer[0x3B8], 3);
     });
 
-    it ('should write VE (946) as BCD in 0xCDE', () => {
+    it ('should write VE (246) as BCD in 0xCDE', () => {
         cpu.registers[0xE] = 246;
         cpu.I = 0xCDE,
 
