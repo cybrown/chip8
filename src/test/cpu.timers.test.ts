@@ -13,7 +13,7 @@ describe ('CPU timers', () => {
         cpu.DT = 120;
         setTimeout(() => {
             try {
-                assert.ok((cpu.DT - 90) < 2);
+                assert.ok((cpu.DT - 90) < 6);
                 done();
             } catch (e) {
                 done(e);
@@ -25,7 +25,7 @@ describe ('CPU timers', () => {
         cpu.ST = 120;
         setTimeout(() => {
             try {
-                assert.ok((cpu.ST - 90) < 2);
+                assert.ok((cpu.ST - 90) < 6);
                 done();
             } catch (e) {
                 done(e);
