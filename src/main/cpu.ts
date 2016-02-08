@@ -190,7 +190,7 @@ export class CPU {
                 this.registers[0xF] = sum & ~0xFF ? 1 : 0;
                 this.registers[registerX] = sum & 0xFF;
                 break;
-            case 0x5:   // Set VX = VX + VY, set borrow to VF
+            case 0x5:   // Set VX = VX - VY, set borrow to VF
                 const sub = this.registers[registerX] - this.registers[registerY];
                 this.registers[0xF] = sub < 0 ? 1 : 0;
                 this.registers[registerX] = sub & 0xFF;
@@ -199,7 +199,7 @@ export class CPU {
                 this.registers[0xF] = this.registers[registerX] & 1;
                 this.registers[registerX] = this.registers[registerX] >> 1;
                 break;
-            case 0x7:   // Set VX = VX + VY, set no borrow to VF
+            case 0x7:   // Set VX = VY - VX, set no borrow to VF
                 const invsub = this.registers[registerY] - this.registers[registerX];
                 this.registers[0xF] = invsub < 0 ? 0 : 1;
                 this.registers[registerX] = invsub & 0xFF;
