@@ -146,6 +146,9 @@ export class CPU {
                     case 0x1E:  // 0xFX1E => Add VX to I
                         this.addRegisterToI(nibble2(opcode));
                         break;
+                    case 0x29:  // 0xFX29 => Set I to memory address of digit
+                        this.setIToMemoryAddressOfDigit(nibble2(opcode));
+                        break;
                     case 0x55:  // 0xFX55 => Write V0 to VX from I
                         this.writeToMemory(nibble2(opcode));
                         break;
@@ -302,6 +305,10 @@ export class CPU {
         const sum = this.I + this.registers[register];
         this.registers[0xF] = sum & ~0xFFF ? 1 : 0;
         this.I = sum & 0xFFF;
+    }
+    
+    private setIToMemoryAddressOfDigit(register: number): void {
+        this.I = this.registers[register] * 5;
     }
 
     private setSoundTimer(register: number): void {
