@@ -12,6 +12,13 @@ export interface ICpuRandomGenerator {
     random(): number;
 }
 
+export class CpuRandomGenerator implements ICpuRandomGenerator {
+
+    random() {
+        return (Math.random() * 256) | 0;
+    }
+}
+
 export class CPU {
 
     registers: number[] = new Array(16).fill(0);
