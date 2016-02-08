@@ -87,5 +87,5 @@ fs.readFile(process.argv[2], (err, data) => {
         }
         cliScreen.drawScreen(memory.readScreenZone());
         //ctx.bg(0, 0, 0);
-    }, 200);
+    }, 2);
 });

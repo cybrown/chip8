@@ -72,8 +72,14 @@ export class CPU {
     }
 
     run(cycles: number): void {
-        for (let i = 0; i < cycles; i++) {
-            this.execute(this.memory.readOpcode(this.PC));
+        try {
+            for (let i = 0; i < cycles; i++) {
+                this.execute(this.memory.readOpcode(this.PC));
+            }
+        } catch (e) {
+            console.log(e);
+            console.log(e.stack);
+            console.log(this.PC);
         }
     }
 
@@ -144,11 +150,15 @@ export class CPU {
                     case 0x07:  // 0xFX07 => Read DT to VX
                         this.getDelayTimer(nibble2(opcode));
                         break;
+                    case 0x0A:
+                        break;
                     case 0x15:  // 0xFX15 => Load VX to DT
                         this.setDelayTimer(nibble2(opcode));
                         break;
                     case 0x18:  // 0xFX18 => Load VX to ST
                         this.setSoundTimer(nibble2(opcode));
+                        break;
+                    case 0x29:
                         break;
                     case 0x33:  // 0xFX33 => Write BCD of VX at I
                         this.writeBCD(nibble2(opcode));
@@ -161,6 +171,9 @@ export class CPU {
                         break;
                     case 0x65:  // 0xFX65 => Read from memory at I to V0 to VX
                         this.readFromMemory(nibble2(opcode));
+                        break;
+                    default:
+                        this.invalidOpcode(opcode);
                         break;
                 }
                 break;
@@ -238,7 +251,9 @@ export class CPU {
                 this.registers[0xF] = 1;
             }
             this.memory.writeByte(firstByteToDrawAddress, originalFirstByte ^ firstByteToDraw);
-            this.memory.writeByte(secondByteToDrawAddress, originalSecondByte ^ secondByteToDraw);
+            if (secondByteToDrawAddress <= 4095) {
+                this.memory.writeByte(secondByteToDrawAddress, originalSecondByte ^ secondByteToDraw);
+            }
         }
     }
 
