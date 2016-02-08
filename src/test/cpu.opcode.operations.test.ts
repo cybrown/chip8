@@ -77,7 +77,7 @@ describe ('CPU Opcode arithmetic and logic operations (0x8XYN)', () => {
             cpu.registers[0x7] = 100;
             cpu.execute(0x8875);
             assert.equal(cpu.V8, 20);
-            assert.equal(cpu.VF, 0);
+            assert.equal(cpu.VF, 1);
         });
 
         it ('should substract V8 from V7, with underflow', () => {
@@ -86,7 +86,7 @@ describe ('CPU Opcode arithmetic and logic operations (0x8XYN)', () => {
             cpu.registers[0x7] = 120;
             cpu.execute(0x8875);
             assert.equal(cpu.V8, 256 - 20);
-            assert.equal(cpu.VF, 1);
+            assert.equal(cpu.VF, 0);
         });
     });
 
@@ -109,7 +109,7 @@ describe ('CPU Opcode arithmetic and logic operations (0x8XYN)', () => {
         });
     });
 
-    describe ('Opcode 0x8XY7 VX = VX - VY, with borrow to VF', () => {
+    describe ('Opcode 0x8XY7 VX = VY - VX, with borrow to VF', () => {
 
         it ('should substract V7 from V8 and store to V8, no underflow', () => {
             cpu.registers[0xF] = 5; // 5 is a random value other than 0
