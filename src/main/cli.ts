@@ -1,4 +1,4 @@
-import {CPU, ICpuRandomGenerator} from './cpu';
+import {CPU, ICpuRandomGenerator, CpuRandomGenerator} from './cpu';
 import {Stack} from './stack';
 import {Memory} from './memory';
 import * as fs from 'fs';
@@ -33,11 +33,7 @@ const memory = new Memory(buffer);
 
 function cpuFactory(buffer: Uint8Array): CPU {
     const stack = new Stack();
-    return new CustomCPU(stack, memory, {
-        random() {
-            return (Math.random() + 255)|0;
-        }
-    });
+    return new CustomCPU(stack, memory, new CpuRandomGenerator());
 }
 
 var ctx = require('axel');
