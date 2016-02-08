@@ -143,6 +143,9 @@ export class CPU {
                     case 0x18:  // 0xFX18 => Load VX to ST
                         this.setSoundTimer(nibble2(opcode));
                         break;
+                    case 0x33:  // 0xFX33 => Write BCD of VX at I
+                        this.writeBCD(nibble2(opcode));
+                        break;
                     case 0x1E:  // 0xFX1E => Add VX to I
                         this.addRegisterToI(nibble2(opcode));
                         break;
@@ -159,6 +162,13 @@ export class CPU {
                 break;
         }
         return this;
+    }
+
+    private writeBCD(register: number): void {
+        const strValue = (this.registers[register] + 1000).toString().slice(1);
+        for (let i = 0; i <= 2; i++) {
+            this.memory.writeByte(this.I + i, +strValue[i]);
+        }
     }
 
     private operation(operationType: number, registerX: number, registerY: number): void {
