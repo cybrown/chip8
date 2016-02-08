@@ -26,12 +26,12 @@ describe ('CPU Opcode BCD (0xFX33)', () => {
     });
 
     it ('should write VE (946) as BCD in 0xCDE', () => {
-        cpu.registers[0xE] = 946;
+        cpu.registers[0xE] = 246;
         cpu.I = 0xCDE,
 
         cpu.execute(0xFE33);
 
-        assert.equal(buffer[0xCDE], 9);
+        assert.equal(buffer[0xCDE], 2);
         assert.equal(buffer[0xCDF], 4);
         assert.equal(buffer[0xCE0], 6);
     });
