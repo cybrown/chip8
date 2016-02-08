@@ -35,4 +35,18 @@ describe ('CPU Opcode BCD (0xFX33)', () => {
         assert.equal(buffer[0xCDF], 4);
         assert.equal(buffer[0xCE0], 6);
     });
+
+    it ('should write V7 (0) as BCD in 0x426', () => {
+        cpu.registers[0x7] = 0;
+        cpu.I = 0x426;
+        buffer[0x426] = 1;
+        buffer[0x427] = 10;
+        buffer[0x428] = 100;
+
+        cpu.execute(0xF733);
+
+        assert.equal(buffer[0x426], 0);
+        assert.equal(buffer[0x427], 0);
+        assert.equal(buffer[0x428], 0);
+    });
 });
