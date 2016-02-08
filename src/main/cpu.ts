@@ -12,6 +12,13 @@ export interface ICpuRandomGenerator {
     random(): number;
 }
 
+export class CpuRandomGenerator implements ICpuRandomGenerator {
+
+    random() {
+        return (Math.random() * 256) | 0;
+    }
+}
+
 export class CPU {
 
     registers: number[] = new Array(16).fill(0);
@@ -143,6 +150,9 @@ export class CPU {
                     case 0x18:  // 0xFX18 => Load VX to ST
                         this.setSoundTimer(nibble2(opcode));
                         break;
+                    case 0x33:  // 0xFX33 => Write BCD of VX at I
+                        this.writeBCD(nibble2(opcode));
+                        break;
                     case 0x1E:  // 0xFX1E => Add VX to I
                         this.addRegisterToI(nibble2(opcode));
                         break;
@@ -164,6 +174,13 @@ export class CPU {
         return this;
     }
 
+    private writeBCD(register: number): void {
+        const strValue = (this.registers[register] + 1000).toString().slice(1);
+        for (let i = 0; i <= 2; i++) {
+            this.memory.writeByte(this.I + i, +strValue[i]);
+        }
+    }
+
     private operation(operationType: number, registerX: number, registerY: number): void {
         switch (operationType) {
             case 0x0:   // Set VX = VY
@@ -183,18 +200,18 @@ export class CPU {
                 this.registers[0xF] = sum & ~0xFF ? 1 : 0;
                 this.registers[registerX] = sum & 0xFF;
                 break;
-            case 0x5:   // Set VX = VX + VY, set borrow to VF
+            case 0x5:   // Set VX = VX - VY, set borrow to VF
                 const sub = this.registers[registerX] - this.registers[registerY];
-                this.registers[0xF] = sub < 0 ? 1 : 0;
+                this.registers[0xF] = this.registers[registerX] > this.registers[registerY] ? 1 : 0;
                 this.registers[registerX] = sub & 0xFF;
                 break;
             case 0x6:   // Set VF = leastSignificantBit(VX), VX = VX >> 1
                 this.registers[0xF] = this.registers[registerX] & 1;
                 this.registers[registerX] = this.registers[registerX] >> 1;
                 break;
-            case 0x7:   // Set VX = VX + VY, set no borrow to VF
+            case 0x7:   // Set VX = VY - VX, set no borrow to VF
                 const invsub = this.registers[registerY] - this.registers[registerX];
-                this.registers[0xF] = invsub < 0 ? 0 : 1;
+                this.registers[0xF] = this.registers[registerY] > this.registers[registerX] ? 1 : 0;
                 this.registers[registerX] = invsub & 0xFF;
                 break;
             case 0xE:   // Set VF = mostSignificantBit(VX), VX = VX << 1
