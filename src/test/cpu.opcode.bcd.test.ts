@@ -16,7 +16,7 @@ describe ('CPU Opcode BCD (0xFX33)', () => {
 
     it ('should write V5 (123) as BCD in 0x3B6', () => {
         cpu.registers[5] = 123;
-        cpu.I = 0x3B6,
+        cpu.I = 0x3B6;
 
         cpu.execute(0xF533);
 
@@ -27,7 +27,7 @@ describe ('CPU Opcode BCD (0xFX33)', () => {
 
     it ('should write VE (246) as BCD in 0xCDE', () => {
         cpu.registers[0xE] = 246;
-        cpu.I = 0xCDE,
+        cpu.I = 0xCDE;
 
         cpu.execute(0xFE33);
 
