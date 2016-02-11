@@ -11,8 +11,14 @@ describe ('Memory', () => {
 
     describe ('Initial state', () => {
 
-        it ('should be filled with zeroes', () => {
-            for (let i = 0; i <= 0xFFF; i++) {
+        it ('the 80 first values should not be empty (0-9A-F digits)', () => {
+            for (let i = 0; i < 80; i++) {
+                assert.notEqual(0, memory.readByte(i));
+            }
+        });
+
+        it ('the others should be filled with zeroes', () => {
+            for (let i = 80; i <= 0xFFF; i++) {
                 assert.equal(0, memory.readByte(i));
             }
         });
