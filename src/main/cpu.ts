@@ -158,8 +158,6 @@ export class CPU {
                     case 0x18:  // 0xFX18 => Load VX to ST
                         this.setSoundTimer(nibble2(opcode));
                         break;
-                    case 0x29:
-                        break;
                     case 0x33:  // 0xFX33 => Write BCD of VX at I
                         this.writeBCD(nibble2(opcode));
                         break;
