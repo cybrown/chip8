@@ -17,8 +17,10 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
     it ('should draw a one line sprite at 0, 0', () => {
         buffer[0xAD0] = 0b10101010;
         cpu.I = 0xAD0;
+        cpu.registers[0xA] = 0;
+        cpu.registers[0xB] = 0;
 
-        cpu.execute(0xD001);
+        cpu.execute(0xDAB1);
 
         assert.equal(buffer[0xF00], 0b10101010);
         assert.equal(cpu.VF, 0);
@@ -27,8 +29,10 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
     it ('should draw a one line sprite at 2, 0', () => {
         buffer[0xAD0] = 0b10101010;
         cpu.I = 0xAD0;
+        cpu.registers[0] = 0;
+        cpu.registers[5] = 2;
 
-        cpu.execute(0xD201);
+        cpu.execute(0xD501);
 
         assert.equal(buffer[0xF00], 0b00101010);
         assert.equal(buffer[0xF01], 0b10000000);
@@ -37,8 +41,10 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
     it ('should draw a one line sprite at 0x0, 0xA', () => {
         buffer[0xAD0] = 0b10101010;
         cpu.I = 0xAD0;
+        cpu.registers[7] = 0;
+        cpu.registers[8] = 0xA;
 
-        cpu.execute(0xD0A1);
+        cpu.execute(0xD781);
 
         assert.equal(buffer[0xF50], 0b10101010);
     });
@@ -46,8 +52,10 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
     it ('should draw a one line sprite at 3x0, 0xA', () => {
         buffer[0xAD0] = 0b10101010;
         cpu.I = 0xAD0;
+        cpu.registers[4] = 3;
+        cpu.registers[0xD] = 0xA;
 
-        cpu.execute(0xD3A1);
+        cpu.execute(0xD4D1);
 
         assert.equal(buffer[0xF50], 0b00010101);
         assert.equal(buffer[0xF51], 0b01000000);
@@ -57,8 +65,10 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
         buffer[0xAD0] = 0b10101010;
         buffer[0xAD1] = 0b01010101;
         cpu.I = 0xAD0;
+        cpu.registers[8] = 3;
+        cpu.registers[2] = 0xA;
 
-        cpu.execute(0xD3A2);
+        cpu.execute(0xD822);
 
         assert.equal(buffer[0xF50], 0b00010101);
         assert.equal(buffer[0xF51], 0b01000000);
@@ -71,8 +81,10 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
         buffer[0xAD1] = 0b01010101;
         buffer[0xF58] = 0b00001011;
         cpu.I = 0xAD0;
+        cpu.registers[0xE] = 3;
+        cpu.registers[3] = 0xA;
 
-        cpu.execute(0xD3A2);
+        cpu.execute(0xDE32);
 
         assert.equal(buffer[0xF50], 0b00010101);
         assert.equal(buffer[0xF51], 0b01000000);
@@ -83,8 +95,9 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
     it ('should draw a one line sprite at 0, 0, set VF to 0', () => {
         buffer[0xAD0] = 0b10101010;
         cpu.I = 0xAD0;
+        cpu.registers[6] = 0;
 
-        cpu.execute(0xD001);
+        cpu.execute(0xD661);
 
         assert.equal(cpu.VF, 0);
     });
@@ -93,8 +106,10 @@ describe ('CPU Opcode DRAW (0xDXYN)', () => {
         buffer[0xAD0] = 0b10101010;
         buffer[0xF00] = 0b11111111;
         cpu.I = 0xAD0;
+        cpu.registers[1] = 0;
+        cpu.registers[3] = 0;
 
-        cpu.execute(0xD001);
+        cpu.execute(0xD131);
 
         assert.equal(cpu.VF, 1);
     });
