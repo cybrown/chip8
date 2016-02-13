@@ -16,7 +16,7 @@ Lancer les tests
 npm test
 ```
 
-Lancer la couverture
+Lancer la couverture (disponible dans coverage/lcov-report/index.html)
 ```
 npm run coverage
 ```
